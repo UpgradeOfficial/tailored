@@ -1,0 +1,343 @@
+{% extends 'account/base_dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{user.username}} customer Page
+{% endblock %}
+
+   {% block content %}
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                     <h2>customers</h2>  
+                     
+                     <a href="#" class="btn btn-primary btn-lg" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#addcustomerModal">Add customers</a> 
+                        
+                    </div>
+                </div>
+                 <!-- /. ROW  -->
+                 <hr />
+               
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- Advanced Tables -->
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                             customers Tables
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <label>Search:<input type="search" id="customer_search" class="form-control input-sm" aria-controls="dataTables-example"></label>
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Sex</th>
+                                            <th>Options</th>
+                                
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customer_table_body">
+                                    	{% for customer in customers %}
+                                        <tr class="odd gradeX">
+                                            <td>{{forloop.counter}}
+    <input name="customer_id" value="{{customer.id}}" class="customer_id" type="hidden">                                        </td>
+                                            <td class="customer_name">{{customer.name}}</td>
+                                            <td>{{customer.address}}</td>
+                                            <td class="center">{{customer.sex}}</td>
+                                            <td class="center">
+                                            
+                                          <span>  <button class="btn btn-primary btn-xs edit_customer" data-toggle="modal" data-target="#editcustomerModal"><i class="fa fa-edit "></i> Edit</button></span>
+                                            <span><button class="btn btn-danger btn-xs delete_customer" data-toggle="modal" data-target="#deletecustomerModal"><i class="fa fa-pencil"></i> Delete</button></span></td>
+                                        </tr>
+ {% endfor %}                                       
+                                                                 </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!--End Advanced Tables -->
+
+
+                    
+                           </div>
+               
+        </div>
+               
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+          <!-- Add/edit customer MODAL -->
+
+                    <div class="modal fade" id="addcustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel"> Add customers </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        	<form method="post" id="add_customer_form">
+     {% csrf_token %}
+     {{ customer_form|crispy}}  
+     
+                                  		
+                                        	</form>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="add_customer_btn">Save changes</button>
+                                            <div id="add-customer-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Add/edit customer MODAL -->
+
+
+         <!-- Delete MODAL -->
+
+                    <div class="modal fade" id="deletecustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Delete customer </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        <form id="delete_customer_form">
+                                        {% csrf_token %}
+                                        <input  name="customer_id" type="hidden" id="deletecustomerId">
+
+                                        </form>
+                                        <span id="deleteCustomerName"> </span> data will be deleted permanently?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="deletecustomerButton">Save changes</button>
+                                            <div id="delete-customer-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Delete MODAL -->
+
+        <!-- Edit MODAL -->
+
+                    <div class="modal fade" id="editcustomerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Edit customer</h4>
+                                        </div>
+                                        <div class="edit-customer-modal-body">
+                                    
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="editcustomerButton">Save changes</button>
+                                            <div id="edit-customer-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Edit MODAL -->
+
+         <!-- Order MODAL -->
+
+                    <div class="modal fade" id="customerOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Order Details</h4>
+                                        </div>
+                                        <div class="customer-order-modal-body">
+                                            <form method='POST'>
+                                                {% csrf_token %}
+                                                
+                                                {{order_form|crispy}}
+                                                
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="editcustomerButton">Save changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Delete MODAL -->
+
+   {% endblock %}
+   
+{% block javascript %}   
+<script>
+	
+///////////////////////////  Search customer AJAX ///////////////////////////////////////////////////////////
+
+$("#customer_search").keyup(function(){
+	var data =  $("#customer_search").val();
+
+		$.ajax({
+            type: 'GET',
+            url: "{% url 'tailor_app:search_customer' %}",
+            data: {'customer_filter':data},
+            success: function (json) {
+           
+            	$('#customer_table_body').html(json);
+            },
+            error: function(xhr, errmsg, err){
+            	alert('error');
+            }
+            	 
+	
+});
+});
+
+///////////////////////////  end Search customer AJAX ///////////////////////////////////////////////////////////
+
+///////////////////////////  Add customer AJAX ///////////////////////////////////////////////////////////
+
+
+
+$("#add_customer_btn").click(function(e){ 
+var button = $(this); button.html("Submitting....");	
+var form=	$("#add_customer_form")
+var data=form.serialize();
+var add_customer_url = "{% url 'tailor_app:add_customer' %}";
+$.post(add_customer_url,data).done(function(json){
+    button.html("Save");
+    form.trigger("reset");
+    $("tbody").append(json);
+    $("#add-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> customer Saved to database!!! </div>');  
+    }).fail(function(){
+    	button.html("Retry..");
+     $("#add-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Please try again </div>');
+    })
+ })	
+
+
+
+///////////////////////////  end Add customer AJAX ///////////////////////////////////////////////////////////
+
+///////////////////////////  Edit customer AJAX ///////////////////////////////////////////////////////////
+
+function refresh_edit(id, json){
+
+    var editCustomerById = document.querySelectorAll(".customer_id");
+
+    Array.from(editCustomerById).forEach(function(element){
+        if (element.value == id){
+            var row = element.parentElement.parentElement;
+   			var table = row.parentElement;
+   			table.removeChild(row);
+        }
+    })
+
+}
+
+$("#editcustomerButton").click(function(e){ 
+var button = $(this); button.html("Submitting....");	
+var form=	$("#edit_customer_form")
+var data=form.serialize();
+var add_customer_url = "{% url 'tailor_app:edit_customer' %}";
+$.post(add_customer_url,data).done(function(json){
+    button.html("Saved");
+    $("#edit-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>New changes  Saved to database!!!. Refresh to see changes in table </div>');  
+    }).fail(function(){
+    	button.html("Retry..");
+     $("#edit-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Please try again </div>');
+    })
+ })	
+
+
+
+///////////////////////////  end Edit customer AJAX ///////////////////////////////////////////////////////////
+
+///////////////////////////   delete customer AJAX ///////////////////////////////////////////////////////////
+function deleteByID(id){
+    var deletecustomerById = document.querySelectorAll(".customer_id");
+
+    Array.from(deletecustomerById).forEach(function(element){
+        if (element.value == id){
+            var row = element.parentElement.parentElement;
+   			var table = row.parentElement;
+   			table.removeChild(row);
+        }
+    })
+
+    
+}
+
+var customerTable = document.querySelector("tbody");
+   	customerTable.addEventListener('click', function(event){
+   		
+   		if(event.target.classList.contains("delete_customer")){
+   			var row = event.target.parentElement.parentElement.parentElement
+   			var id = row.querySelector(".customer_id").value;
+               var name = row.querySelector(".customer_name").innerHTML;
+               //alert(name)
+            document.querySelector("#deletecustomerId").value = id;
+            document.querySelector("#deleteCustomerName").innerHTML = name;
+   		}
+
+        if(event.target.classList.contains("edit_customer")){
+   			var row = event.target.parentElement.parentElement.parentElement
+   			var id = row.querySelector(".customer_id").value;
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'tailor_app:edit_form_customer' %}",
+                data: {'customer_id':id},
+                success: function (json) {
+                    $(".edit-customer-modal-body").html(json);
+                },
+                error: function(xhr, errmsg, err){
+                    alert('error');
+            }
+            	 
+	
+});
+   		}
+   	})
+
+var deletecustomerButton = document.querySelector("#deletecustomerButton");
+deletecustomerButton.addEventListener('click', function(event){	
+    var form=	$("#delete_customer_form");
+    var data= form.serialize();
+    var id = document.querySelector("#deletecustomerId").value;
+    var delete_customer_url = "{% url 'tailor_app:delete_customer' %}";
+
+       $.post(delete_customer_url,data).done(function(json){
+
+    deleteByID(id);
+    $("#deletecustomerModal").modal("hide");
+    // alert("success");
+    $("#delete-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> customer delete from database!!! </div>');  
+    deletecustomerButton.innerHTML = " Delete";
+
+    }).fail(function(){
+
+       $("#delete-customer-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Try again</div>');  
+        deletecustomerButton.innerHTML = " Try again...";
+        
+    	})
+
+
+   	})      
+
+
+///////////////////////////  end delete customer AJAX ///////////////////////////////////////////////////////////
+
+
+</script>
+
+{% endblock %}

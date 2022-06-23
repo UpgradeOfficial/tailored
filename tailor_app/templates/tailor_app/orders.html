@@ -1,0 +1,288 @@
+{% extends 'account/base_dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %}
+{{user.username}} Order Page
+{% endblock %}
+
+   {% block content %}
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                     <h2>Orders</h2>  
+                     
+                     <a href="#" class="btn btn-primary btn-lg" type="button" class="btn btn-primary"  data-toggle="modal" data-target="#addcustomerOrderModal">Add Order</a> 
+                        
+                    </div>
+                </div>
+                 <!-- /. ROW  -->
+                 <hr />
+               
+            <div class="row">
+                
+                <div class="col-md-12">
+                     <!--    Context Classes  -->
+                    <div class="panel panel-default">
+                       
+                        <div class="panel-heading">
+                            Order Table
+                        </div>
+                        
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>order ID</th>
+                                            <th>customer</th>
+                                            <th>quantity </th>
+                                            <th>amount</th>
+                                            <th>paid</th>
+                                            <th>delivery_date</th>
+                                            <th>days reamining</th>
+                                            <th>status</th>
+                                            <th>Options</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for order in orders %}
+                                        <tr class="success">
+                                            <td class="order_id">{{order.tracking_id}}</td>
+                                            <td>{{order.customer.name}}</td>
+                                            <td>{{order.quantity}}</td>
+                                            <td>{{order.amount}}</td>
+                                            <td>{{order.paid}}</td>
+                                            <td>{{order.delivery_date}}</td>
+                                            <td>{{order.days_remaining|naturalday}}</td>
+                                            <td>{{order.status}}</td> 
+                                            <td class="center">
+                                            <span><button type="button" class="btn btn-primary btn-xs edit_order"  data-toggle="modal" data-target="#editOrderModal"><i class="fa fa-edit edit_order"> Edit </i>
+                            </button></span>
+                                           <span> <button type="button" class="btn btn-danger btn-xs delete_order"  data-toggle="modal" data-target="#deleteOrderModal"><i class="fa fa-pencil"></i> Delete
+                            </button></span></td>
+                                                                                     
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+            </div>
+                <!-- /. ROW  -->
+        </div>
+               
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+
+<!-- Add/edit customer Order MODAL -->
+
+                    <div class="modal fade" id="addcustomerOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel"> Add Order </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        	<form method="post" id="add_order_form">
+     {% csrf_token %}
+     
+     {{ order_form|crispy}}                                   		
+                                        	</form>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="add_order_btn">Save changes</button>
+                                            <div id="add-order-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Add/edit customer MODAL -->
+
+
+                       <!-- Edit MODAL -->
+
+                    <div class="modal fade" id="editOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Edit Order</h4>
+                                        </div>
+                                        <div class="edit-order-modal-body">
+                                    
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="editOrderButton">Save changes</button>
+                                            <div id="edit-order-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Edit MODAL -->
+
+
+         <!-- Delete MODAL -->
+
+                    <div class="modal fade" id="deleteOrderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">Delete Order </h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        <form id="delete_order_form">
+                                        {% csrf_token %}
+                                        <input  name="order_id" type="hidden" id="deleteOrderId">
+
+                                        </form>
+                                        Customer Order Data will be deleted permanently?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" id="deleteOrderButton">Save changes</button>
+                                            <div id="delete-order-status"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    <!-- End Delete MODAL -->
+
+{% endblock content %}
+
+{% block javascript %}
+<script>
+
+function deleteByID(id){
+    var deleteOrderById = document.querySelectorAll(".order_id");
+    Array.from(deleteOrderById).forEach(function(element){
+        
+        if (element.innerHTML == id){
+            var row = element.parentElement;
+   			var table = row.parentElement;
+   			table.removeChild(row);
+        }
+    })
+
+    
+}
+
+$("#add_order_btn").click(function(e){ 
+var button = $(this);
+button.html("Submitting....");	
+var form=	$("#add_order_form")
+var data=form.serialize();
+
+var add_measurement_measurement_url = "{% url 'tailor_app:add_order' %}";
+$.post(add_measurement_measurement_url,data).done(function(json){
+    
+    button.html("Save");
+    form.trigger("reset");
+    $("tbody").append(json);
+    $("#add-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Order Saved to database!!! </div>');  
+    }).fail(function(xhr, errmsg, err){
+        console.log(xhr)
+        alert(errmsg)
+        console.log(err)
+    	button.html("Retry..");
+     $("#add-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Please try again </div>');
+    })
+ })	
+
+var customerOrderTable = document.querySelector("tbody");
+customerOrderTable.addEventListener('click', function(event){
+   		
+   		if(event.target.classList.contains("delete_order")){
+           
+   			var row = event.target.parentElement.parentElement.parentElement
+   			var id = row.querySelector(".order_id").innerHTML;
+            document.querySelector("#deleteOrderId").value = id
+            
+   		}
+        
+        if(event.target.classList.contains("edit_order")){
+            
+   			var row = event.target.parentElement.parentElement.parentElement
+   			var id = row.querySelector(".order_id").innerHTML;
+           
+
+             $.ajax({
+                type: 'GET',
+                url: "{% url 'tailor_app:edit_form_order' %}",
+                data: {'order_id':id},
+                success: function (json) {
+                    $(".edit-order-modal-body").html(json);
+                },
+                error: function(xhr, errmsg, err){
+                    alert('error');
+            }
+
+        
+   	})
+
+        }
+        })
+
+///////////////////////////  Edit customer AJAX ///////////////////////////////////////////////////////////
+
+
+
+$("#editOrderButton").click(function(e){ 
+var button = $(this); button.html("Submitting....");	
+var form=	$("#edit_order_form")
+var data=form.serialize();
+var edit_order_url = "{% url 'tailor_app:edit_order' %}";
+$.post(edit_order_url,data).done(function(json){
+    button.html("Saved");
+    $("#edit-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>New changes  Saved to database!!!. Refresh to see changes in table. </div>');  
+    }).fail(function(){
+    	button.html("Retry..");
+     $("#edit-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Please try again </div>');
+    })
+ })	
+
+
+
+///////////////////////////  end Edit customer AJAX ///////////////////////////////////////////////////////////
+
+
+var deleteOrderButton = document.querySelector("#deleteOrderButton");
+deleteOrderButton.addEventListener('click', function(event){	
+    var form=	$("#delete_order_form");
+    var data= form.serialize();
+    var id = document.querySelector("#deleteOrderId").value;
+    var delete_order_url = "{% url 'tailor_app:delete_order' %}";
+
+       $.post(delete_order_url,data).done(function(json){
+           deleteByID(id);
+    $("#deleteOrderModal").modal("hide");
+    $("#delete-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Order delete from database!!! </div>');  
+    deleteOrderButton.innerHTML = " Delete";
+
+    }).fail(function(){
+        alert("failed")
+       $("#delete-order-status").html('<div class="alert alert-info alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> Something went wrong. Try again</div>');  
+        deleteOrderButton.innerHTML = " Try again...";
+        
+    	})
+
+
+   	})
+</script>
+{% endblock %}
+
+
+     

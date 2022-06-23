@@ -1,0 +1,13 @@
+{% for customer in customers %}
+                                       <tr class="odd gradeX">
+                                            <td>{{forloop.counter}}
+    <input name="customer_id" value="{{customer.id}}" class="customer_id" type="hidden">                                        </td>
+                                            <td class="customer_name">{{customer.name}}</td>
+                                            <td>{{customer.address}}</td>
+                                            <td class="center">{{customer.sex}}</td>
+                                            <td class="center">
+                                            <button class="btn btn-primary btn-sm edit_customer" data-toggle="modal" data-target="#editcustomerModal"><i class="fa fa-edit "></i> Edit</button>
+                                            <button class="btn btn-danger btn-sm delete_customer" data-toggle="modal" data-target="#deletecustomerModal"><i class="fa fa-pencil"></i> Delete</button></td>
+                                        </tr>
+ {% endfor %}                                       
+                 

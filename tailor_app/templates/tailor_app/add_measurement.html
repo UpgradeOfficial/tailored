@@ -1,0 +1,20 @@
+ <tr class="success">
+                                            <td>{{forloop.counter}}<input type="hidden" class="measurement_id" name="id" value={{measurement.id}}></td>
+                                            <td>{{measurement.customer}}</td>
+                                            <td>{{measurement.neck}}</td>
+                                            <td>{{measurement.waist}}</td>
+                                            <td>{{measurement.wrist}}</td>
+                                            <td>{{measurement.sleeve_length}}</td>
+                                            <td>{{measurement.chest}}</td> 
+                                            <td>{{measurement.shoulder}}</td>
+                                            <td>{{measurement.thigh}}</td>
+                                            <td>{{measurement.ankle}}</td>
+                                            <td class="center">
+                                            <span><button type="button" class="btn btn-primary extra_measurement"  data-toggle="modal" data-target="#extraMeasurementModal"><i class="fa fa-list"> More</i>
+                            </button></span>
+                                           <span> <button type="button" class="btn btn-primary edit_measurement"  data-toggle="modal" data-target="#editMeasurementModal"><i class="fa fa-edit edit_measurement"> Edit </i>
+                            </button></span>
+                                           <span> <button type="button" class="btn btn-danger delete_measurement"  data-toggle="modal" data-target="#deleteMeasurementModal" ><i class="fa fa-pencil"></i> Delete
+                            </button></span></td>
+                                                                                     
+                                        </tr>

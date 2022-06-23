@@ -1,0 +1,7 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<form id="edit_customer_form">
+<input id="id" type="hidden" name="id" value={{id}}>
+{% csrf_token %}
+{{customer_form|crispy}}
+</form>

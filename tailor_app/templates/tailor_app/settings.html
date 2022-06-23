@@ -1,0 +1,72 @@
+﻿{% extends 'account/base_dashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{user.username}} Settings Page
+{% endblock %}
+
+   {% block content %}
+
+   <div id="page-wrapper" >
+   {% if messages %}
+   <ul class=" messages">
+   
+    {% for message in messages %}
+    <li class="alert alert-{{message.tags}}">{{ message}}</li>
+    {% endfor %}
+    </ul>
+   {% endif %}
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                     <h2>Settings</h2>    
+                    </div>
+                </div>
+                 <!-- /. ROW  -->
+                 <hr />
+               
+            <div class="row" >
+                
+                <div class="col-md-12">
+                     <!--    Context Classes  -->
+                    <div class="panel panel-default">
+                       
+                        <div class="panel-heading">
+                            Settings
+                        </div>
+                        
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <form method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <input type="hidden" name="type" value="profile">
+        {{ user_form | crispy }}
+        <button class="btn btn-success btn-lg"> Save </button>
+        </form>
+
+        </br>
+
+        <form method="post"  >
+        {% csrf_token %}
+        <input type="hidden" name="type" value="password">
+        {{ change_password_form | crispy }}
+        <button class="btn btn-success btn-lg"> Change Password </button>
+        </form>
+
+        <!--<button type="button" class="btn btn-default btn-circle dark-mode">ON
+                            </button>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+            </div>
+                <!-- /. ROW  -->
+        </div>
+               
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+
+    {% endblock content %}

@@ -1,0 +1,25 @@
+{% load static %}
+
+{
+
+ "name" : "Tailored" ,
+ "short_name" : "Tailored",
+ "start_url" : "{% url 'account:home' %}",
+ "display" : "standalone",
+ "background_color" : "#FFE9D2",
+ "theme_color" : "#FFE1C4",
+ "orientation" : "potrait-primary",
+ "icon" : [
+     {
+         "src": "{% static 'account/img/2.png' %}",
+         "type" : "image/png",
+         "sizes" : "50x50"
+     },
+     {
+        "src": "{% static 'account/img/logo.jpg' %}",
+        "type" : "image/jpg",
+        "sizes" : "128x128"
+    }
+ ]
+
+}

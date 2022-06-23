@@ -1,2 +1,2 @@
 # tailored
-A tailor management software
+Tailor Management Software

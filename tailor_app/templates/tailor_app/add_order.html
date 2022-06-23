@@ -1,0 +1,17 @@
+ {% load humanize %}
+ <tr class="success">
+                                            <td class="order_id">{{order.tracking_id}}</td>
+                                            <td>{{order.customer.name}}</td>
+                                            <td>{{order.quantity}}</td>
+                                            <td>{{order.amount}}</td>
+                                            <td>{{order.paid}}</td>
+                                            <td>{{order.delivery_date}}</td>
+                                            <td>{{order.days_remaining|naturalday}}</td>
+                                            <td>{{order.status}}</td> 
+                                            <td class="center">
+                                            <span><button type="button" class="btn btn-primary btn-xs edit_order"  data-toggle="modal" data-target="#editOrderModal"><i class="fa fa-edit edit_order"> Edit </i>
+                            </button></span>
+                                           <span> <button type="button" class="btn btn-danger btn-xs delete_order"  data-toggle="modal" data-target="#deleteOrderModal"><i class="fa fa-pencil"></i> Delete
+                            </button></span></td>
+                                                                                     
+                                        </tr>

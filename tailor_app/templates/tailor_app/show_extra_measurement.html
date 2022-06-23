@@ -1,0 +1,11 @@
+{% for measurement in extra_measurement%}
+
+ <tr>
+                                            <td><input name="extra_measurement_id" type="hidden" class="extra_measurement_id" value="{{measurement.id}}">{{forloop.counter}}</td>
+                                            <td>{{measurement.name}}</td>
+                                            <td>{{measurement.value}}</td>
+                                             <td>
+                                            <button class="btn btn-danger btn-xs delete_extra_measurement" ><i class="fa fa-pencil"></i> Delete</button>
+                                            </td>  
+                                        </tr>
+{% endfor %}

@@ -1,0 +1,94 @@
+{% extends 'account/base_dashboard.html' %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+
+{% block title %}
+{{user.username}} Reports Page
+{% endblock %}
+
+   {% block content %}
+        <div id="page-wrapper" >
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                     <h2>Reports</h2>    
+                    </div>
+                </div>
+                 <!-- /. ROW  -->
+                 <hr />
+               
+            <div class="row">
+                
+                <div class="col-md-12">
+                     <!--    Context Classes  -->
+                    <div class="panel panel-default">
+                       
+                        <div class="panel-heading">
+                            Report Table
+                        </div>
+                        
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>SN</th>
+                                            <th>Status</th>
+                                            <th>Description </th>
+                                            <th> Date </th>
+                                            
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for report in reports %}
+                                        <tr class="success">
+                                            <td >{{forloop.counter}}</td>
+                                            <td>{{report.status}}</td>
+                                            <td>{{report.description}}</td>
+                                            <td>{{report.created_on|naturalday}}</td>                     
+                                        </tr>
+                                    {% endfor %}
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {% if reports.has_other_pages %}
+  <ul class="pagination">
+    {% if reports.has_previous %}
+      <li><a href="?page={{ reports.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in reports.paginator.page_range %}
+      {% if reports.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if reports.has_next %}
+      <li><a href="?page={{ reports.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+                        </div>
+                    </div>
+                    <!--  end  Context Classes  -->
+                </div>
+            </div>
+                <!-- /. ROW  -->
+        </div>
+               
+    </div>
+             <!-- /. PAGE INNER  -->
+            </div>
+         <!-- /. PAGE WRAPPER  -->
+
+
+
+{% endblock %}
